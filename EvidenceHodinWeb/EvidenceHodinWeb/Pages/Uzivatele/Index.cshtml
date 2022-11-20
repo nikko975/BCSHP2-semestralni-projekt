@@ -1,0 +1,70 @@
+﻿@page
+@model EvidenceHodinWeb.Pages.Uzivatele.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Uzivatel[0].OwnerID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Uzivatel[0].Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Uzivatel[0].Surname)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Uzivatel[0].Status)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Uzivatel) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.OwnerID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Surname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            
+            <td>
+                @if ((await AuthorizationService.AuthorizeAsync(
+               User, item,
+               UserOperations.Update)).Succeeded)
+                {
+                        <a asp-page="./Edit" asp-route-id="@item.UzivatelId">Edit</a>
+                    <text> | </text>
+                }
+
+                    <a asp-page="./Details" asp-route-id="@item.UzivatelId">Details</a>
+
+                @if ((await AuthorizationService.AuthorizeAsync(
+               User, item,
+               UserOperations.Delete)).Succeeded)
+                {
+                    <text> | </text>
+                        <a asp-page="./Delete" asp-route-id="@item.UzivatelId">Delete</a>
+                }
+             </td>
+
+        </tr>
+}
+    </tbody>
+</table>
