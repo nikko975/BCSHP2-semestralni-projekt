@@ -37,3 +37,6 @@ TestResults/
 
 # Visual Studio 2015
 .vs/
+
+# Just for development Windows vs MacOS - ignore app settings due to DB
+appsettings.json
