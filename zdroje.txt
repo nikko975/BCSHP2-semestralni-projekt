@@ -12,10 +12,14 @@ Update-Database
 
 DB work Mac: via terminal
 0, run docker :D
-1,move to project directory
+1, move to project directory
+
+cd Documents/GitHub/C#/BCSHP2-semestralni-projekt/EvidenceHodinWebMVC/EvidenceHodinWebMVC
+
 2, dotnet ef migrations add initial
 3, dotnet ef database update
 
+4, dotnet ef database drop -- smazani DB
 
 Mac settings: appsettings.json
 
