@@ -1,11 +1,13 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EvidenceHodinWebMVC.Models
 {
 	public class Contact
 	{
-        public int ContactId { get; set; }
+        [Key]
+        public int Id { get; set; }
 
         // user ID from AspNetUser table.
         public string? OwnerID { get; set; }

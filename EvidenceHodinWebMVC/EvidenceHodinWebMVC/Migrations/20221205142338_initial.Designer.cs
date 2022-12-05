@@ -9,10 +9,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace EvidenceHodinWebMVC.Data.Migrations
+namespace EvidenceHodinWebMVC.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221205110652_initial")]
+    [Migration("20221205142338_initial")]
     partial class initial
     {
         /// <inheritdoc />
@@ -24,6 +24,52 @@ namespace EvidenceHodinWebMVC.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("EvidenceHodinWebMVC.Models.Projekt", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<long>("MaxMinutCelkem")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Nazev")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ZakaznikId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ZakaznikId");
+
+                    b.ToTable("Projekt");
+                });
+
+            modelBuilder.Entity("EvidenceHodinWebMVC.Models.Zakaznik", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Nazev")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Zkratka")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Zakaznik");
+                });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
@@ -227,6 +273,17 @@ namespace EvidenceHodinWebMVC.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("EvidenceHodinWebMVC.Models.Projekt", b =>
+                {
+                    b.HasOne("EvidenceHodinWebMVC.Models.Zakaznik", "Zakaznik")
+                        .WithMany("Projekty")
+                        .HasForeignKey("ZakaznikId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Zakaznik");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -276,6 +333,11 @@ namespace EvidenceHodinWebMVC.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("EvidenceHodinWebMVC.Models.Zakaznik", b =>
+                {
+                    b.Navigation("Projekty");
                 });
 #pragma warning restore 612, 618
         }

@@ -19,7 +19,7 @@ cd Documents/GitHub/C#/BCSHP2-semestralni-projekt/EvidenceHodinWebMVC/EvidenceHo
 2, dotnet ef migrations add initial
 3, dotnet ef database update
 
-4, dotnet ef database drop -- smazani DB
+4, dotnet ef database drop
 
 Mac settings: appsettings.json
 

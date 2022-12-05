@@ -1,9 +1,13 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace EvidenceHodinWebMVC.Models
 {
 	public class Prace
 	{
-		public int Id { get; set; }
+        [Key]
+        public int Id { get; set; }
 		public Contact Uzivatel { get; set; }
 		public Zakaznik Zakaznik { get; set; }
 		public Projekt Projekt { get; set; }

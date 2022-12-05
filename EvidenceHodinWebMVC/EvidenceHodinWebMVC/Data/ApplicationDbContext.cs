@@ -1,5 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using EvidenceHodinWebMVC.Models;
 
 namespace EvidenceHodinWebMVC.Data
 {
@@ -9,5 +10,6 @@ namespace EvidenceHodinWebMVC.Data
             : base(options)
         {
         }
+        public DbSet<EvidenceHodinWebMVC.Models.Zakaznik> Zakaznik { get; set; } = default!;
     }
 }
