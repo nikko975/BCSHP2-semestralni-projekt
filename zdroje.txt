@@ -2,10 +2,52 @@
 2, https://learn.microsoft.com/en-us/aspnet/core/security/authentication/scaffold-identity?view=aspnetcore-7.0&tabs=visual-studio#scaffold-identity-into-a-razor-project-with-authorization
 3, https://learn.microsoft.com/en-us/aspnet/core/security/authorization/secure-data?source=recommendations&view=aspnetcore-7.0
 4, https://learn.microsoft.com/en-us/aspnet/core/tutorials/razor-pages/model?view=aspnetcore-7.0&tabs=visual-studio
-5,
+5, https://phoenixnap.com/kb/install-sql-server-macos docker + rozchozeni
+6, https://stackoverflow.com/questions/45382536/how-to-enable-migrations-in-visual-studio-for-mac
+7, https://github.com/dotnet/SqlClient/issues/1479
 
-
-
-
+DB work:
 Add-Migration InitialCreate
 Update-Database
+
+DB work Mac: via terminal
+0, run docker :D
+1,move to project directory
+2, dotnet ef migrations add initial
+3, dotnet ef database update
+
+
+Mac settings: appsettings.json
+
+{
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=127.0.0.1,1433;Database=aspnet-EvidenceHodinWeb-53bc9b9d-9d6a-45d4-8429-2a2761773502;user id=sa;password=MyPass@word;Trusted_Connection=True;MultipleActiveResultSets=true"
+  },
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "AllowedHosts": "*"
+}
+
+docker cmd:
+
+docker run -d --name sql_server_test -e 'ACCEPT_EULA=Y' -e 'SA_PASSWORD=MyPass@word' -p 1433:1433 --name=sql  mcr.microsoft.com/mssql/server:2019-latest
+
+
+Windows settings: appsettings.json
+
+{
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=(localdb)\\mssqllocaldb;Database=aspnet-EvidenceHodinWeb-53bc9b9d-9d6a-45d4-8429-2a2761773502;Trusted_Connection=True;MultipleActiveResultSets=true"
+  },
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "AllowedHosts": "*"
+}

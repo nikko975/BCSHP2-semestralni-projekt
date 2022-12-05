@@ -40,3 +40,5 @@ TestResults/
 
 # Just for development Windows vs MacOS - ignore app settings due to DB
 appsettings.json
+EvidenceHodinWeb/EvidenceHodinWeb/appsettings.json
+EvidenceHodinWeb/EvidenceHodinWeb/appsettings.json

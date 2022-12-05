@@ -72,7 +72,7 @@ namespace EvidenceHodinWeb.Areas.Identity.Pages.Account
                     values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
                     protocol: Request.Scheme);
             }
-
+            // TODO naparovani automaticky nebo zobrazit adminovi at to potvrdi?
             return Page();
         }
     }
