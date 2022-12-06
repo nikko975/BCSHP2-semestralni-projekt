@@ -5,6 +5,7 @@
 5, https://phoenixnap.com/kb/install-sql-server-macos docker + rozchozeni
 6, https://stackoverflow.com/questions/45382536/how-to-enable-migrations-in-visual-studio-for-mac
 7, https://github.com/dotnet/SqlClient/issues/1479
+8, https://stackoverflow.com/questions/7637022/default-value-in-an-asp-net-mvc-view-model
 
 DB work:
 Add-Migration InitialCreate
@@ -25,7 +26,7 @@ Mac settings: appsettings.json
 
 {
   "ConnectionStrings": {
-    "DefaultConnection": "Server=127.0.0.1,1433;Database=aspnet-EvidenceHodinWeb-53bc9b9d-9d6a-45d4-8429-2a2761773502;user id=sa;password=MyPass@word;Trusted_Connection=True;MultipleActiveResultSets=true"
+    "DefaultConnection": "Server=127.0.0.1,1433;Database=aspnet-EvidenceHodinWeb-53bc9b9d-9d6a-45d4-8429-2a2761773502;user  id=sa;password=MyPass@word;Trusted_Connection=True;MultipleActiveResultSets=true"
   },
   "Logging": {
     "LogLevel": {
