@@ -1,4 +1,4 @@
-@model EvidenceHodinWebMVC.Models.Zakaznik
+﻿@model EvidenceHodinWebMVC.Models.Projekt
 
 @{
     ViewData["Title"] = "Create";
@@ -6,22 +6,29 @@
 
 <h1>Create</h1>
 
-<h4>Zakaznik</h4>
+<h4>Projekt</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Zkratka" class="control-label"></label>
-                <input asp-for="Zkratka" class="form-control" />
-                <span asp-validation-for="Zkratka" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="Nazev" class="control-label"></label>
                 <input asp-for="Nazev" class="form-control" />
                 <span asp-validation-for="Nazev" class="text-danger"></span>
             </div>
+            <div class="form-group">
+                <label asp-for="MaxMinut" class="control-label"></label>
+                <input asp-for="MaxMinut" class="form-control" />
+                <span asp-validation-for="MaxMinut" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ZakaznikId" class="control-label"></label>
+                <select asp-for="ZakaznikId" class ="form-control" asp-items="ViewBag.ZakaznikId">
+                    <option value="">-- Vyberte zákazníka --</option>
+                </select>
+            </div>
+            
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>

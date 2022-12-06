@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace EvidenceHodinWebMVC.Migrations
 {
     /// <inheritdoc />
-    public partial class initial : Migration
+    public partial class Init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -48,6 +48,36 @@ namespace EvidenceHodinWebMVC.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Cinnost",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nazev = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Aktivita = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Cinnost", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Contact",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    OwnerID = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Surname = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Status = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Contact", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -177,7 +207,7 @@ namespace EvidenceHodinWebMVC.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Nazev = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    MaxMinutCelkem = table.Column<long>(type: "bigint", nullable: false),
+                    MaxMinut = table.Column<long>(type: "bigint", nullable: false),
                     ZakaznikId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -253,6 +283,12 @@ namespace EvidenceHodinWebMVC.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "Cinnost");
+
+            migrationBuilder.DropTable(
+                name: "Contact");
 
             migrationBuilder.DropTable(
                 name: "Projekt");

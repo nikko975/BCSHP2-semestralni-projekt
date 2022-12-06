@@ -4,10 +4,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EvidenceHodinWebMVC.Models
 {
-	public class Contact
-	{
+	public class Contact : BaseViewModel
+    {
         [Key]
-        public int Id { get; set; }
+        public int ContactId { get; set; }
 
         // user ID from AspNetUser table.
         public string? OwnerID { get; set; }

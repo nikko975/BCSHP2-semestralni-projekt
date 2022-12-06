@@ -1,4 +1,4 @@
-@model EvidenceHodinWebMVC.Models.Zakaznik
+﻿@model EvidenceHodinWebMVC.Models.Zakaznik
 
 @{
     ViewData["Title"] = "Edit";
@@ -12,7 +12,7 @@
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="ZakaznikId" />
             <div class="form-group">
                 <label asp-for="Zkratka" class="control-label"></label>
                 <input asp-for="Zkratka" class="form-control" />
@@ -22,6 +22,11 @@
                 <label asp-for="Nazev" class="control-label"></label>
                 <input asp-for="Nazev" class="form-control" />
                 <span asp-validation-for="Nazev" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Aktivita" class="control-label"></label>
+                <input asp-for="Aktivita" class="form-control" />
+                <span asp-validation-for="Aktivita" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

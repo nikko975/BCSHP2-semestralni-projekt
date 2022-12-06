@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EvidenceHodinWebMVC.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221205150357_IDKN")]
-    partial class IDKN
+    [Migration("20221206193920_UpdateNames")]
+    partial class UpdateNames
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,13 +25,38 @@ namespace EvidenceHodinWebMVC.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("EvidenceHodinWebMVC.Models.Contact", b =>
+            modelBuilder.Entity("EvidenceHodinWebMVC.Models.Cinnost", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("CinnostId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CinnostId"));
+
+                    b.Property<int>("Aktivita")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Nazev")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ProjektId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CinnostId");
+
+                    b.HasIndex("ProjektId");
+
+                    b.ToTable("Cinnost");
+                });
+
+            modelBuilder.Entity("EvidenceHodinWebMVC.Models.Contact", b =>
+                {
+                    b.Property<int>("ContactId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ContactId"));
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -45,20 +70,23 @@ namespace EvidenceHodinWebMVC.Migrations
                     b.Property<string>("Surname")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("ContactId");
 
                     b.ToTable("Contact");
                 });
 
             modelBuilder.Entity("EvidenceHodinWebMVC.Models.Projekt", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ProjektId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProjektId"));
 
-                    b.Property<long>("MaxMinutCelkem")
+                    b.Property<int>("Aktivita")
+                        .HasColumnType("int");
+
+                    b.Property<long>("MaxMinut")
                         .HasColumnType("bigint");
 
                     b.Property<string>("Nazev")
@@ -68,7 +96,7 @@ namespace EvidenceHodinWebMVC.Migrations
                     b.Property<int>("ZakaznikId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("ProjektId");
 
                     b.HasIndex("ZakaznikId");
 
@@ -77,11 +105,14 @@ namespace EvidenceHodinWebMVC.Migrations
 
             modelBuilder.Entity("EvidenceHodinWebMVC.Models.Zakaznik", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ZakaznikId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ZakaznikId"));
+
+                    b.Property<int>("Aktivita")
+                        .HasColumnType("int");
 
                     b.Property<string>("Nazev")
                         .IsRequired()
@@ -91,7 +122,7 @@ namespace EvidenceHodinWebMVC.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("ZakaznikId");
 
                     b.ToTable("Zakaznik");
                 });
@@ -298,6 +329,13 @@ namespace EvidenceHodinWebMVC.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("EvidenceHodinWebMVC.Models.Cinnost", b =>
+                {
+                    b.HasOne("EvidenceHodinWebMVC.Models.Projekt", null)
+                        .WithMany("Cinnosti")
+                        .HasForeignKey("ProjektId");
+                });
+
             modelBuilder.Entity("EvidenceHodinWebMVC.Models.Projekt", b =>
                 {
                     b.HasOne("EvidenceHodinWebMVC.Models.Zakaznik", "Zakaznik")
@@ -358,6 +396,11 @@ namespace EvidenceHodinWebMVC.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("EvidenceHodinWebMVC.Models.Projekt", b =>
+                {
+                    b.Navigation("Cinnosti");
                 });
 
             modelBuilder.Entity("EvidenceHodinWebMVC.Models.Zakaznik", b =>

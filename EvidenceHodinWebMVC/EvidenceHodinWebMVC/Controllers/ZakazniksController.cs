@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,24 +10,24 @@ using EvidenceHodinWebMVC.Models;
 
 namespace EvidenceHodinWebMVC.Controllers
 {
-    public class ZakaznikController : Controller
+    public class ZakazniksController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public ZakaznikController(ApplicationDbContext context)
+        public ZakazniksController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Zakaznik
+        // GET: Zakazniks
         public async Task<IActionResult> Index()
         {
               return _context.Zakaznik != null ? 
-                          View(await _context.Zakaznik.ToListAsync()) :
+                          View(await _context.Zakaznik.Include(p => p.Projekty).ToListAsync()) :
                           Problem("Entity set 'ApplicationDbContext.Zakaznik'  is null.");
         }
 
-        // GET: Zakaznik/Details/5
+        // GET: Zakazniks/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Zakaznik == null)
@@ -36,7 +36,7 @@ namespace EvidenceHodinWebMVC.Controllers
             }
 
             var zakaznik = await _context.Zakaznik
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.ZakaznikId == id);
             if (zakaznik == null)
             {
                 return NotFound();
@@ -45,19 +45,20 @@ namespace EvidenceHodinWebMVC.Controllers
             return View(zakaznik);
         }
 
-        // GET: Zakaznik/Create
+        // GET: Zakazniks/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Zakaznik/Create
+        // POST: Zakazniks/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Zkratka,Nazev")] Zakaznik zakaznik)
+        public async Task<IActionResult> Create([Bind("ZakaznikId,Zkratka,Nazev")] Zakaznik zakaznik)
         {
+            zakaznik.Aktivita = 100;
             if (ModelState.IsValid)
             {
                 _context.Add(zakaznik);
@@ -67,7 +68,7 @@ namespace EvidenceHodinWebMVC.Controllers
             return View(zakaznik);
         }
 
-        // GET: Zakaznik/Edit/5
+        // GET: Zakazniks/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Zakaznik == null)
@@ -83,14 +84,14 @@ namespace EvidenceHodinWebMVC.Controllers
             return View(zakaznik);
         }
 
-        // POST: Zakaznik/Edit/5
+        // POST: Zakazniks/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Zkratka,Nazev")] Zakaznik zakaznik)
+        public async Task<IActionResult> Edit(int id, [Bind("ZakaznikId,Zkratka,Nazev,Aktivita")] Zakaznik zakaznik)
         {
-            if (id != zakaznik.Id)
+            if (id != zakaznik.ZakaznikId)
             {
                 return NotFound();
             }
@@ -104,7 +105,7 @@ namespace EvidenceHodinWebMVC.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ZakaznikExists(zakaznik.Id))
+                    if (!ZakaznikExists(zakaznik.ZakaznikId))
                     {
                         return NotFound();
                     }
@@ -118,7 +119,7 @@ namespace EvidenceHodinWebMVC.Controllers
             return View(zakaznik);
         }
 
-        // GET: Zakaznik/Delete/5
+        // GET: Zakazniks/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Zakaznik == null)
@@ -127,7 +128,7 @@ namespace EvidenceHodinWebMVC.Controllers
             }
 
             var zakaznik = await _context.Zakaznik
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.ZakaznikId == id);
             if (zakaznik == null)
             {
                 return NotFound();
@@ -136,7 +137,7 @@ namespace EvidenceHodinWebMVC.Controllers
             return View(zakaznik);
         }
 
-        // POST: Zakaznik/Delete/5
+        // POST: Zakazniks/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -157,7 +158,7 @@ namespace EvidenceHodinWebMVC.Controllers
 
         private bool ZakaznikExists(int id)
         {
-          return (_context.Zakaznik?.Any(e => e.Id == id)).GetValueOrDefault();
+          return (_context.Zakaznik?.Any(e => e.ZakaznikId == id)).GetValueOrDefault();
         }
     }
 }

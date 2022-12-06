@@ -1,17 +1,26 @@
 ﻿using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EvidenceHodinWebMVC.Models
 {
-	public class Cinnost
-	{
+	public class Cinnost : BaseViewModel
+    {
         [Key]
-        public int Id { get; set; }
+        public int CinnostId { get; set; }
+
         [Required]
+        [Display(Name = "Název činnosti")]
         public string Nazev { get; set; }
-        public long MaxMinut { get; set; }
+
+        [Required]
+        [Range(100, 900)]
+        [DefaultValue(100)]
+        public int Aktivita { get; set; } = 100;
+
         public Projekt Projekt { get; set; }
+
     }
 }
 
