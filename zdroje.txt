@@ -56,3 +56,13 @@ Windows settings: appsettings.json
   },
   "AllowedHosts": "*"
 }
+
+
+
+
+
+https://learn.microsoft.com/en-us/aspnet/core/data/ef-mvc/complex-data-model?view=aspnetcore-7.0
+https://learn.microsoft.com/en-us/aspnet/core/data/ef-mvc/read-related-data?view=aspnetcore-7.0
+https://learn.microsoft.com/en-us/aspnet/core/data/ef-mvc/update-related-data?view=aspnetcore-7.0
+https://learn.microsoft.com/cs-cz/aspnet/core/mvc/views/overview?view=aspnetcore-7.0
+https://learn.microsoft.com/en-us/aspnet/mvc/overview/older-versions/working-with-the-dropdownlist-box-and-jquery/using-the-dropdownlist-helper-with-aspnet-mvc
