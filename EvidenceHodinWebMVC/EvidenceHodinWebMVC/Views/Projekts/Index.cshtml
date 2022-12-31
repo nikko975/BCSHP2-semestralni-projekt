@@ -7,23 +7,31 @@
 <h1>Index</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    @if (User.IsInRole("Admin"))
+    {
+        <a asp-action="Create">Create New</a>
+    }
+    
 </p>
 <table class="table">
     <thead>
         <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Zakaznik)
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.Nazev)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.MaxMinut)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Zakaznik)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Aktivita)
-            </th>
+            @if (User.IsInRole("Admin"))
+            {
+                <th>
+                    @Html.DisplayNameFor(model => model.Aktivita)
+                </th>
+            }
+            
             <th></th>
         </tr>
     </thead>
@@ -31,22 +39,31 @@
 @foreach (var item in Model) {
         <tr>
             <td>
+                @Html.DisplayFor(modelItem => item.Zakaznik.Nazev)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.Nazev)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.MaxMinut)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Zakaznik.Nazev)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Aktivita)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ProjektId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ProjektId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ProjektId">Delete</a>
-            </td>
+            
+            
+                @if (User.IsInRole("Admin"))
+                {
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Aktivita)
+                    </td>
+                }
+                @if (User.IsInRole("Admin"))
+                {
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.ProjektId">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.ProjektId">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.ProjektId">Delete</a>
+                    </td>
+                }
+            
         </tr>
 }
     </tbody>

@@ -17,10 +17,83 @@ namespace EvidenceHodinWebMVC.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.0")
+                .HasAnnotation("ProductVersion", "7.0.1")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("EvidenceHodinWebMVC.Models.ApplicationUser", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasDatabaseName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasDatabaseName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.ToTable("AspNetUsers", (string)null);
+                });
 
             modelBuilder.Entity("EvidenceHodinWebMVC.Models.Cinnost", b =>
                 {
@@ -37,39 +110,51 @@ namespace EvidenceHodinWebMVC.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ProjektId")
-                        .HasColumnType("int");
-
                     b.HasKey("CinnostId");
-
-                    b.HasIndex("ProjektId");
 
                     b.ToTable("Cinnost");
                 });
 
-            modelBuilder.Entity("EvidenceHodinWebMVC.Models.Contact", b =>
+            modelBuilder.Entity("EvidenceHodinWebMVC.Models.Prace", b =>
                 {
-                    b.Property<int>("ContactId")
+                    b.Property<int>("PraceId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ContactId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PraceId"));
 
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("OwnerID")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Status")
+                    b.Property<int>("Aktivita")
                         .HasColumnType("int");
 
-                    b.Property<string>("Surname")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("CinnostId")
+                        .HasColumnType("int");
 
-                    b.HasKey("ContactId");
+                    b.Property<int>("ProjektId")
+                        .HasColumnType("int");
 
-                    b.ToTable("Contact");
+                    b.Property<string>("UzivatelId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("ZakaznikId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("datum")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long>("time")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("PraceId");
+
+                    b.HasIndex("CinnostId");
+
+                    b.HasIndex("ProjektId");
+
+                    b.HasIndex("UzivatelId");
+
+                    b.HasIndex("ZakaznikId");
+
+                    b.ToTable("Prace");
                 });
 
             modelBuilder.Entity("EvidenceHodinWebMVC.Models.Projekt", b =>
@@ -98,6 +183,29 @@ namespace EvidenceHodinWebMVC.Migrations
                     b.HasIndex("ZakaznikId");
 
                     b.ToTable("Projekt");
+                });
+
+            modelBuilder.Entity("EvidenceHodinWebMVC.Models.ProjektCinnostVazba", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CinnostId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProjektId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CinnostId");
+
+                    b.HasIndex("ProjektId");
+
+                    b.ToTable("ProjektCinnostVazba");
                 });
 
             modelBuilder.Entity("EvidenceHodinWebMVC.Models.Zakaznik", b =>
@@ -174,71 +282,6 @@ namespace EvidenceHodinWebMVC.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetRoleClaims", (string)null);
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Email")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("NormalizedEmail")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("UserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedEmail")
-                        .HasDatabaseName("EmailIndex");
-
-                    b.HasIndex("NormalizedUserName")
-                        .IsUnique()
-                        .HasDatabaseName("UserNameIndex")
-                        .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.ToTable("AspNetUsers", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -326,11 +369,37 @@ namespace EvidenceHodinWebMVC.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("EvidenceHodinWebMVC.Models.Cinnost", b =>
+            modelBuilder.Entity("EvidenceHodinWebMVC.Models.Prace", b =>
                 {
-                    b.HasOne("EvidenceHodinWebMVC.Models.Projekt", null)
-                        .WithMany("Cinnosti")
-                        .HasForeignKey("ProjektId");
+                    b.HasOne("EvidenceHodinWebMVC.Models.Cinnost", "Cinnost")
+                        .WithMany()
+                        .HasForeignKey("CinnostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EvidenceHodinWebMVC.Models.Projekt", "Projekt")
+                        .WithMany()
+                        .HasForeignKey("ProjektId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EvidenceHodinWebMVC.Models.ApplicationUser", "Uzivatel")
+                        .WithMany()
+                        .HasForeignKey("UzivatelId");
+
+                    b.HasOne("EvidenceHodinWebMVC.Models.Zakaznik", "Zakaznik")
+                        .WithMany()
+                        .HasForeignKey("ZakaznikId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Cinnost");
+
+                    b.Navigation("Projekt");
+
+                    b.Navigation("Uzivatel");
+
+                    b.Navigation("Zakaznik");
                 });
 
             modelBuilder.Entity("EvidenceHodinWebMVC.Models.Projekt", b =>
@@ -344,6 +413,25 @@ namespace EvidenceHodinWebMVC.Migrations
                     b.Navigation("Zakaznik");
                 });
 
+            modelBuilder.Entity("EvidenceHodinWebMVC.Models.ProjektCinnostVazba", b =>
+                {
+                    b.HasOne("EvidenceHodinWebMVC.Models.Cinnost", "Cinnost")
+                        .WithMany("CinnostVazba")
+                        .HasForeignKey("CinnostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EvidenceHodinWebMVC.Models.Projekt", "Projekt")
+                        .WithMany("CinnostVazba")
+                        .HasForeignKey("ProjektId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Cinnost");
+
+                    b.Navigation("Projekt");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -355,7 +443,7 @@ namespace EvidenceHodinWebMVC.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("EvidenceHodinWebMVC.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -364,7 +452,7 @@ namespace EvidenceHodinWebMVC.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("EvidenceHodinWebMVC.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -379,7 +467,7 @@ namespace EvidenceHodinWebMVC.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("EvidenceHodinWebMVC.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -388,16 +476,21 @@ namespace EvidenceHodinWebMVC.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("EvidenceHodinWebMVC.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("EvidenceHodinWebMVC.Models.Cinnost", b =>
+                {
+                    b.Navigation("CinnostVazba");
+                });
+
             modelBuilder.Entity("EvidenceHodinWebMVC.Models.Projekt", b =>
                 {
-                    b.Navigation("Cinnosti");
+                    b.Navigation("CinnostVazba");
                 });
 
             modelBuilder.Entity("EvidenceHodinWebMVC.Models.Zakaznik", b =>

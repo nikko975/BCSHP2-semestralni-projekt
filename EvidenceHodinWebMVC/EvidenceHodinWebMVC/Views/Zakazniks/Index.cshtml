@@ -6,9 +6,10 @@
 
 <h1>Index</h1>
 
-<p>
+@if (User.IsInRole("Admin"))
+{
     <a asp-action="Create">Create New</a>
-</p>
+}
 <table class="table">
     <thead>
         <tr>
@@ -18,9 +19,13 @@
             <th>
                 @Html.DisplayNameFor(model => model.Nazev)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Aktivita)
-            </th>
+            @if (User.IsInRole("Admin"))
+            {
+                <th>
+                    @Html.DisplayNameFor(model => model.Aktivita)
+                </th>
+            }
+            
             <th>
                 @Html.DisplayNameFor(model => model.Projekty)
             </th>
@@ -36,9 +41,13 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Nazev)
             </td>
-            <td>
+            @if (User.IsInRole("Admin"))
+            {
+                <td>
                 @Html.DisplayFor(modelItem => item.Aktivita)
             </td>
+            }
+            
             <td>
                     @if (item.Projekty != null)
                     {
@@ -50,11 +59,15 @@
                     }
             </td>
                 
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ZakaznikId">Edit</a> |
+                @if (User.IsInRole("Admin"))
+                {
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.ZakaznikId">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.ZakaznikId">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.ZakaznikId">Delete</a>
             </td>
+                }
+            
         </tr>
 }
     </tbody>

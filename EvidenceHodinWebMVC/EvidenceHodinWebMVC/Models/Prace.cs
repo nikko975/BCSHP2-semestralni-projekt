@@ -9,12 +9,27 @@ namespace EvidenceHodinWebMVC.Models
     {
         [Key]
         public int PraceId { get; set; }
-		public Contact Uzivatel { get; set; }
-		public Zakaznik Zakaznik { get; set; }
-		public Projekt Projekt { get; set; }
-		public Cinnost Cinnost { get; set; }
-		public DateTime datum { get; set; }
-		public long time { get; set; }
+
+        [Display(Name = "Uživatel")]
+        public ApplicationUser? Uzivatel { get; set; }
+
+        [Display(Name = "Zákazník")]
+        public Zakaznik? Zakaznik { get; set; }
+        public int ZakaznikId { get; set; }
+
+        [Display(Name = "Projekt")]
+        public Projekt? Projekt { get; set; }
+        public int ProjektId { get; set; }
+
+        [Display(Name = "Činnost")]
+        public Cinnost? Cinnost { get; set; }
+        public int CinnostId { get; set; }
+
+        [Display(Name = "Datum")]
+        public DateTime datum { get; set; }
+
+        [Display(Name = "Čas (min)")]
+        public long time { get; set; }
 
         [Required]
         [Range(100, 900)]

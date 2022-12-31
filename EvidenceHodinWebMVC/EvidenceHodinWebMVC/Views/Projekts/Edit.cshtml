@@ -33,6 +33,35 @@
                 <input asp-for="Aktivita" class="form-control" />
                 <span asp-validation-for="Aktivita" class="text-danger"></span>
             </div>
+
+            <div class="form-group">
+    <div class="col-md-offset-2 col-md-10">
+        <table>
+            <tr>
+                @{
+                    int cnt = 0;
+                    List<PraceCinnostData> cinnosti = ViewBag.Cinnosti;
+
+                    foreach (var cinnost in cinnosti)
+                    {
+                        if (cnt++ % 3 == 0)
+                        {
+                            @:</tr><tr>
+                        }
+                        @:<td>
+                            <input type="checkbox"
+                                   name="vybraneCinnosti"
+                                   value="@cinnost.CinnostId"
+                                   @(Html.Raw(cinnost.Assigned ? "checked=\"checked\"" : "")) />
+                                   @cinnost.CinnostId @:  @cinnost.Nazev
+                        @:</td>
+                    }
+                    @:</tr>
+                }
+        </table>
+    </div>
+</div>
+
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>

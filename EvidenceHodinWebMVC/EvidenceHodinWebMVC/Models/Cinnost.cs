@@ -19,7 +19,8 @@ namespace EvidenceHodinWebMVC.Models
         [DefaultValue(100)]
         public int Aktivita { get; set; } = 100;
 
-        public Projekt Projekt { get; set; }
+        public ICollection<ProjektCinnostVazba>? CinnostVazba { get; set; }
+
 
     }
 }

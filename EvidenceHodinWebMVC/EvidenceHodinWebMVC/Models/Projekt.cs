@@ -17,11 +17,13 @@ namespace EvidenceHodinWebMVC.Models
         [Display(Name = "Časový limit h/rok")]
         public long? MaxMinut { get; set; }
 
+        [Display(Name = "Zákazník")]
         public Zakaznik? Zakaznik { get; set; }
 
+        [Display(Name = "Identifikátor zákazníka")]
         public int ZakaznikId { get; set; }
 
-        public ICollection<Cinnost>? Cinnosti { get; set; }
+        public ICollection<ProjektCinnostVazba>? CinnostVazba { get; set; }
 
         [Required]
         [Range(100, 900)]

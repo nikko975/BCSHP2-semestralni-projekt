@@ -7,9 +7,12 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using EvidenceHodinWebMVC.Data;
 using EvidenceHodinWebMVC.Models;
+using Microsoft.AspNetCore.Authorization;
+using System.Data;
 
 namespace EvidenceHodinWebMVC.Controllers
 {
+    [Authorize(Roles = "Admin, Manager, Uzivatel")]
     public class ZakazniksController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -22,8 +25,19 @@ namespace EvidenceHodinWebMVC.Controllers
         // GET: Zakazniks
         public async Task<IActionResult> Index()
         {
-              return _context.Zakaznik != null ? 
-                          View(await _context.Zakaznik.Include(p => p.Projekty).ToListAsync()) :
+            var data = _context.Zakaznik.Where(x => x.Aktivita == 100).Include(p => p.Projekty);
+
+            if (User.IsInRole("Manager"))
+            {
+                
+            }
+            if (User.IsInRole("Admin"))
+            {
+                data = _context.Zakaznik.Include(p => p.Projekty);
+            }
+
+            return _context.Zakaznik != null ? 
+                          View(await data.ToListAsync()) :
                           Problem("Entity set 'ApplicationDbContext.Zakaznik'  is null.");
         }
 
@@ -46,6 +60,7 @@ namespace EvidenceHodinWebMVC.Controllers
         }
 
         // GET: Zakazniks/Create
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             return View();
@@ -56,6 +71,7 @@ namespace EvidenceHodinWebMVC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([Bind("ZakaznikId,Zkratka,Nazev")] Zakaznik zakaznik)
         {
             zakaznik.Aktivita = 100;
@@ -69,6 +85,7 @@ namespace EvidenceHodinWebMVC.Controllers
         }
 
         // GET: Zakazniks/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Zakaznik == null)
@@ -89,6 +106,7 @@ namespace EvidenceHodinWebMVC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id, [Bind("ZakaznikId,Zkratka,Nazev,Aktivita")] Zakaznik zakaznik)
         {
             if (id != zakaznik.ZakaznikId)
@@ -120,6 +138,7 @@ namespace EvidenceHodinWebMVC.Controllers
         }
 
         // GET: Zakazniks/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Zakaznik == null)
@@ -140,6 +159,7 @@ namespace EvidenceHodinWebMVC.Controllers
         // POST: Zakazniks/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (_context.Zakaznik == null)
@@ -149,7 +169,9 @@ namespace EvidenceHodinWebMVC.Controllers
             var zakaznik = await _context.Zakaznik.FindAsync(id);
             if (zakaznik != null)
             {
-                _context.Zakaznik.Remove(zakaznik);
+                zakaznik.Aktivita = 100;
+                _context.Update(zakaznik);
+                //_context.Zakaznik.Remove(zakaznik);
             }
             
             await _context.SaveChangesAsync();
